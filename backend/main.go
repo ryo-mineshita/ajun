@@ -14,5 +14,7 @@ func main() {
     config.AllowOrigins = []string{"http://localhost:3000"}
     router.Use(cors.New(config))
     router.GET("/", server.GetStorePage)
+    router.POST("/", server.CreateStoreHandler)
+
     router.Run(":8080")
 }
