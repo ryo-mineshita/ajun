@@ -1,7 +1,7 @@
-DROP DATABASE IF EXISTS crud_go;
-CREATE DATABASE crud_go;
+DROP DATABASE IF EXISTS reactgo;
+CREATE DATABASE reactgo;
 
-use crud_go;
+use reactgo;
 
 CREATE TABLE `stores`(
     `id`     int(10) AUTO_INCREMENT PRIMARY KEY,
@@ -9,7 +9,7 @@ CREATE TABLE `stores`(
 	`updated_at`  timestamp NULL DEFAULT NULL,
 	`deleted_at`  timestamp NULL DEFAULT NULL,
 	`storename`   varchar(255) DEFAULT NULL,
-	`loc` 	      varchar(255) DEFAULT NULL, 
+	`loc` 	      varchar(255) DEFAULT NULL,
 	`genre`       varchar(255) DEFAULT NULL,
 	`tel`         varchar(255) DEFAULT NULL,
 	`information` varchar(255) DEFAULT NULL,

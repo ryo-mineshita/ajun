@@ -1,3 +1,3 @@
 development:
   driver: mysql
-  open: user=root dbname=crud_go
+  open: user=root dbname=reactgo

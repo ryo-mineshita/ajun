@@ -2,10 +2,8 @@ package controller
 
 import (
 	"net/http"
-
 	// "image/png"
-	"crud_go/model"
-
+	"reactgo/model"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	// "github.com/boombuler/barcode"
@@ -16,60 +14,70 @@ type Server struct {
 	DB *gorm.DB
 }
 
-func (s *Server) GetStorePage(c *gin.Context) {
+func (s *Server) GetFoodPage(c *gin.Context) {
 	errMsg := ""
-	stores, err := model.GetAllStores(s.DB)
+	foods, err := model.GetAllFoods(s.DB)
 	if err != nil {
 		errMsg = "エラー発生"
-		stores = []model.Store{}
+		foods = []model.Food{}
 	}
 	c.JSON(http.StatusOK,gin.H{
-		"stores": stores,
+		"foods": foods,
 		"errMsg": &errMsg,
 	})
 }
 
-func (s *Server) CreateStoreHandler(c *gin.Context) {
-	c.Request.ParseForm()
-	store := new(model.Store)
+func (s *Server) CreateFoodHandler(c *gin.Context) {
+	food := new(model.Food)
+	c.BindJSON(&food)
+	model.CreateFood(s.DB, food)
+	c.Redirect(http.StatusMovedPermanently, "/")
+}
 
-	store.Storename = c.Request.Form["storename"][0]
-	store.Loc = c.Request.Form["Loc"][0]
-	store.Genre = c.Request.Form["Genre"][0]
-	store.Tel = c.Request.Form["Tel"][0]
-	store.Information = c.Request.Form["Information"][0]
-	store.Tables = c.Request.Form["Tables"][0]
+func (s *Server) GetShopPage(c *gin.Context) {
+	errMsg := ""
+	shops, err := model.GetAllShops(s.DB)
+	if err != nil {
+		errMsg = "エラー発生"
+		shops = []model.Shop{}
+	}
+	c.JSON(http.StatusOK,gin.H{
+		"shops": shops,
+		"errMsg": &errMsg,
+	})
+}
 
-	if store.Storename == "" {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"errMsg": "empty:Storename",
+func (s *Server) CreateShopHandler(c *gin.Context) {
+	shop := new(model.Shop)
+	c.BindJSON(&shop)
+	model.CreateShop(s.DB, shop)
+	c.Redirect(http.StatusMovedPermanently, "/")
+}
+
+func (s *Server) CreateUserHandler(c *gin.Context) {
+	user := new(model.User)
+	c.BindJSON(&user)
+	user2 , _ ,login := model.CreateUser(s.DB, user)
+	if(login == true){
+		c.JSON(http.StatusOK,gin.H{
+			"login": login,
+			"user" : user2,
 		})
-		return
-	} else if store.Loc == "" {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"errMsg": "empty:Loc",
+	}
+	c.Redirect(http.StatusMovedPermanently, "/")
+}
+
+func (s *Server) UserShopHandler(c *gin.Context) {
+	user := new(model.User)
+	shop := new(model.Shop)
+	c.BindJSON(&user)
+
+	shops , _ ,hantei := model.UserShop(s.DB, user, shop)
+	if(hantei == true){
+		c.JSON(http.StatusOK,gin.H{
+			"hantei": hantei,
+			"shops" : shops,
 		})
-		return
-	} else if store.Genre == "" {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"errMsg": "empty:Genre",
-		})
-		return
-	} else if store.Tel == "" {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"errMsg": "empty:Tel",
-		})
-		return
-	} else if store.Information == "" {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"errMsg": "empty:Information",
-		})
-		return
-	} else if store.Tables == "" {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"errMsg": "empty:Tables",
-		})
-		return
 	}
 	c.Redirect(http.StatusMovedPermanently, "/")
 }
