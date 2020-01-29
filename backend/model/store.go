@@ -98,3 +98,23 @@ func UserShop(db *gorm.DB,user *User,shop *Shop) ([]Shop,error,bool) {
 
 	return shops,nil,c
 }
+
+func ShopFood(db *gorm.DB,food *Food,shop *Shop) ([]Food,error,bool) {
+	foods := []Food{}
+	a			:= shop.Shopid
+  var   c bool
+	var count = 0
+
+	if err := db.Where("shopid = ?", a).Find(&foods).Count(&count).Error; err != nil {
+		c = false
+		return nil, err,c
+	}
+
+	if count == 0 {
+        c = false
+    } else {
+        c = true
+    }
+
+	return foods,nil,c
+}

@@ -16,9 +16,9 @@ func main() {
 
     router.GET("/w", server.GetFoodPage)
     router.POST("/w", server.CreateFoodHandler)
-
     router.POST("/user", server.CreateUserHandler)
-
     router.POST("/usershop", server.UserShopHandler)
+    router.POST("/shopfood", server.ShopFoodHandler)
+
     router.Run(":8080")
 }

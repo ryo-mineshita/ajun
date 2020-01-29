@@ -81,3 +81,18 @@ func (s *Server) UserShopHandler(c *gin.Context) {
 	}
 	c.Redirect(http.StatusMovedPermanently, "/")
 }
+
+func (s *Server) ShopFoodHandler(c *gin.Context) {
+	food := new(model.Food)
+	shop := new(model.Shop)
+	c.BindJSON(&shop)
+
+	foods , _ ,hantei := model.ShopFood(s.DB, food, shop)
+	if(hantei == true){
+		c.JSON(http.StatusOK,gin.H{
+			"hantei": hantei,
+			"foods" : foods,
+		})
+	}
+	c.Redirect(http.StatusMovedPermanently, "/")
+}
