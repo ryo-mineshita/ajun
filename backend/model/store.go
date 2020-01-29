@@ -60,61 +60,61 @@ func CreateShop(db *gorm.DB, shop *Shop) error {
 
 func CreateUser(db *gorm.DB,user *User) ([]User,error,bool) {
 	users := []User{}
-	a			:= user.Userid
-	b     := user.Userpass
-  var   c bool
+	kensakuid	  := user.Userid
+	kensakupass := user.Userpass
+  var hantei bool
 	var count = 0
 
-	if err := db.Where("userid = ? AND userpass = ?", a,b).Find(&users).Count(&count).Error; err != nil {
-		c = false
-		return nil, err,c
+	if err := db.Where("userid = ? AND userpass = ?", kensakuid,kensakupass).Find(&users).Count(&count).Error; err != nil {
+		hantei = false
+		return nil, err,hantei
 	}
 
 	if count == 0 {
-        c = false
+        hantei = false
     } else {
-        c = true
+        hantei = true
     }
 
-	return users,nil,c
+	return users,nil,hantei
 }
 
 func UserShop(db *gorm.DB,user *User,shop *Shop) ([]Shop,error,bool) {
 	shops := []Shop{}
-	a			:= user.Userid
-  var   c bool
+	kensaku := user.Userid
+  var hantei bool
 	var count = 0
 
-	if err := db.Where("userid = ?", a).Find(&shops).Count(&count).Error; err != nil {
-		c = false
-		return nil, err,c
+	if err := db.Where("userid = ?", kensaku).Find(&shops).Count(&count).Error; err != nil {
+		hantei = false
+		return nil, err,hantei
 	}
 
 	if count == 0 {
-        c = false
+        hantei = false
     } else {
-        c = true
+        hantei = true
     }
 
-	return shops,nil,c
+	return shops,nil,hantei
 }
 
 func ShopFood(db *gorm.DB,food *Food,shop *Shop) ([]Food,error,bool) {
 	foods := []Food{}
-	a			:= shop.Shopid
-  var   c bool
+	kensaku := shop.Shopid
+  var hantei bool
 	var count = 0
 
-	if err := db.Where("shopid = ?", a).Find(&foods).Count(&count).Error; err != nil {
-		c = false
-		return nil, err,c
+	if err := db.Where("shopid = ?", kensaku).Find(&foods).Count(&count).Error; err != nil {
+		hantei = false
+		return nil, err,hantei
 	}
 
 	if count == 0 {
-        c = false
+        hantei = false
     } else {
-        c = true
+        hantei = true
     }
 
-	return foods,nil,c
+	return foods,nil,hantei
 }

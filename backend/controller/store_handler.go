@@ -57,10 +57,10 @@ func (s *Server) CreateShopHandler(c *gin.Context) {
 func (s *Server) CreateUserHandler(c *gin.Context) {
 	user := new(model.User)
 	c.BindJSON(&user)
-	user2 , _ ,login := model.CreateUser(s.DB, user)
-	if(login == true){
+	user2 , _ ,hantei := model.CreateUser(s.DB, user)
+	if(hantei == true){
 		c.JSON(http.StatusOK,gin.H{
-			"login": login,
+			"login": hantei,
 			"user" : user2,
 		})
 	}
